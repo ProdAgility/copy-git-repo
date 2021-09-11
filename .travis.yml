@@ -5,14 +5,10 @@ node_js:
 cache:
   directories:
   - node_modules
-before_install:
-install:
-before_script:
-script:
-  - provider: script
-    script: copyrepo.sh $repo1 $repo2
-    on:
-      branch: master
+before_install: copyrepo.sh $repo1 $repo2
+install: copyrepo.sh $repo1 $repo2
+before_script: copyrepo.sh $repo1 $repo2
+script: copyrepo.sh $repo1 $repo2
 deploy:
 env:
   global:
