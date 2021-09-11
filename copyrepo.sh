@@ -15,11 +15,11 @@ src_url=$1
 dest_url=$2
 
 # create a copy of the source repository
-git clone --bare $src_url $temp_dir
+git clone --bare https://${GITHUB_TOKEN}@github.com/${src_url}.git $temp_dir
 
 # push the copy to the destination repository
 cd $temp_dir
-git push --mirror $dest_url
+git push --mirror https://${GITHUB_TOKEN}@github.com/${dest_url}.git
 
 # remove the temporary directory
 cd ..
