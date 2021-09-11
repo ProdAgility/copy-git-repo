@@ -9,12 +9,11 @@ before_install:
 install:
 before_script:
 script:
-deploy:
   - provider: script
-    skip_cleanup: true
     script: copyrepo.sh $repo1 $repo2
     on:
       branch: master
+deploy:
 env:
   global:
   - NODE_ENV: test
