@@ -6,13 +6,17 @@ cache:
   directories:
   - node_modules
 before_install:
-  - printenv
-  - ls -l
-  - ./copyrepo.sh $repo1 $repo2
-install: copyrepo.sh $repo1 $repo2
-before_script: copyrepo.sh $repo1 $repo2
-script: copyrepo.sh $repo1 $repo2
+  - yarn global add serverless
+install: yarn install
+before_script:
+script:
+  - yarn test
 deploy:
+  - provider: script
+    skip_cleanup: true
+    script: yarn deploy
+    on:
+      branch: master
 env:
   global:
   - NODE_ENV: test

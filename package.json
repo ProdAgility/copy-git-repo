@@ -1,0 +1,23 @@
+{
+  "name": "copy-git-repo",
+  "version": "1.0.0",
+  "description": "Copy a git repo",
+  "main": "copyrepo.sh",
+  "scripts": {
+    "test": "jest",
+    "deploy": "sls deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProdAgility/copy-git-repo.git"
+  },
+  "author": "Roman Hood",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ProdAgility/copy-git-repo/issues"
+  },
+  "homepage": "https://github.com/ProdAgility/copy-git-repo#readme",
+  "dependencies": {
+    "serverless-dotenv-plugin": "^3.9.0"
+  }
+}
