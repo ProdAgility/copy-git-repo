@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/ProdAgility/copy-git-repo#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "serverless-dotenv-plugin": "^3.9.0"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6"
   }
 }
