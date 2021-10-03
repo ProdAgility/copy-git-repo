@@ -11,7 +11,7 @@ const something = async (existing, copy) => {
   return true;
 }
 
-const { readdir, readFile, writeFile } = require('fs/promises')
+const { readdir, readFile, rename, writeFile } = require('fs/promises')
 const findAndReplace = async (keyword, replacement) => {
   try {
     const files = await readdir(process.cwd(), { withFileTypes: true })
@@ -30,4 +30,21 @@ const findAndReplace = async (keyword, replacement) => {
   }
 }
 
+const findAndRename = async (currentName, newName) => {
+  try {
+    const files = await readdir(process.cwd(), { withFileTypes: true })
+    files.forEach(async (file) => {
+      try {
+        if (!file.isDirectory() && file.name.match(currentName)) {
+          await rename(currentName, newName)
+        }
+      } catch(err) {
+        console.log(err)
+      }
+    })
+  } catch (err) {
+    console.log(err)
+  }
+
+}
 module.exports = something;
