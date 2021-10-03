@@ -1,7 +1,7 @@
 const { execSync } = require('child_process')
 const process = require('process')
 
-const copyRepo = async (existing, copy) => {
+const something = async (existing, copy) => {
   const execOpt = { encoding: 'utf8', stdio: 'inherit' }
   const tempDir = 'copyrepo-tmp'
   execSync(`cd /tmp && git clone --bare https://${process.env.GITHUB_TOKEN}@github.com/${existing}.git ${tempDir}`, execOpt)
@@ -11,4 +11,23 @@ const copyRepo = async (existing, copy) => {
   return true;
 }
 
-module.exports = copyRepo;
+const { readdir, readFile, writeFile } = require('fs/promises')
+const findAndReplace = async (keyword, replacement) => {
+  try {
+    const files = await readdir(process.cwd(), { withFileTypes: true })
+    files.forEach(async (file) => {
+      try {
+        if (!file.isDirectory()) {
+          const fileContents = await readFile(file.name, 'utf8')
+          await writeFile(file.name, fileContents.replace(keyword, replacement), 'utf8')
+        }
+      } catch(err) {
+        console.log(err)
+      }
+    })
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+module.exports = something;
