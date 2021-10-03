@@ -1,17 +1,22 @@
 const { execSync } = require('child_process')
+const { readdir, readFile, rename, writeFile } = require('fs/promises')
 const process = require('process')
 
-const something = async (existing, copy) => {
+const copyRepo = async (existing, copy) => {
   const execOpt = { encoding: 'utf8', stdio: 'inherit' }
   const tempDir = 'copyrepo-tmp'
   execSync(`cd /tmp && git clone --bare https://${process.env.GITHUB_TOKEN}@github.com/${existing}.git ${tempDir}`, execOpt)
+  process.chdir(`/tmp/${tempDir}`)
+  try {
+    await findAndReplace('copyRepo', 'someReplacement')
+    await findAndRename('copyRepo', 'someReplacement')
+  } 
   execSync(`cd /tmp/${tempDir} && git push --mirror https://${process.env.GITHUB_TOKEN}@github.com/${copy}.git`, execOpt)
   execSync(`cd /tmp && rm -rf ${tempDir}`, execOpt)
 
   return true;
 }
 
-const { readdir, readFile, rename, writeFile } = require('fs/promises')
 const findAndReplace = async (keyword, replacement) => {
   try {
     const files = await readdir(process.cwd(), { withFileTypes: true })
@@ -36,7 +41,9 @@ const findAndRename = async (currentName, newName) => {
     files.forEach(async (file) => {
       try {
         if (!file.isDirectory() && file.name.match(currentName)) {
-          await rename(currentName, newName)
+          const extension = file.name.split('.').slice(1).join('.')
+          const finalName = extension ? `${newName}.${extension}` : newName;
+          await rename(file.name, finalName)
         }
       } catch(err) {
         console.log(err)
@@ -45,6 +52,5 @@ const findAndRename = async (currentName, newName) => {
   } catch (err) {
     console.log(err)
   }
-
 }
 module.exports = something;
