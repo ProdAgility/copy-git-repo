@@ -10,9 +10,12 @@ const copyRepo = async (existing, copy) => {
   try {
     await findAndReplace('copyRepo', 'someReplacement')
     await findAndRename('copyRepo', 'someReplacement')
-  } 
-  execSync(`cd /tmp/${tempDir} && git push --mirror https://${process.env.GITHUB_TOKEN}@github.com/${copy}.git`, execOpt)
-  execSync(`cd /tmp && rm -rf ${tempDir}`, execOpt)
+  } catch (error) {
+    console.log(error)
+  }
+  execSync(`git -c user.name='${process.env.GIT_USER_NAME}' -c user.email='${process.env.GIT_EMAIL}' commit -m 'updates'`)
+  execSync(`git push --mirror https://${process.env.GITHUB_TOKEN}@github.com/${copy}.git`, execOpt)
+  execSync(`rm -rf ${tempDir}`, execOpt)
 
   return true;
 }
@@ -25,13 +28,14 @@ const findAndReplace = async (keyword, replacement) => {
         if (!file.isDirectory()) {
           const fileContents = await readFile(file.name, 'utf8')
           await writeFile(file.name, fileContents.replace(keyword, replacement), 'utf8')
+          return;
         }
-      } catch(err) {
-        console.log(err)
+      } catch(error) {
+        console.log(error)
       }
     })
-  } catch(err) {
-    console.log(err)
+  } catch(error) {
+    console.log(error)
   }
 }
 
@@ -44,13 +48,14 @@ const findAndRename = async (currentName, newName) => {
           const extension = file.name.split('.').slice(1).join('.')
           const finalName = extension ? `${newName}.${extension}` : newName;
           await rename(file.name, finalName)
+          return;
         }
-      } catch(err) {
-        console.log(err)
+      } catch(error) {
+        console.log(error)
       }
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 }
 module.exports = something;
