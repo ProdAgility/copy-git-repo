@@ -7,7 +7,7 @@ const findAndReplace = async (keyword, replacement) => {
       try {
         if (!file.isDirectory()) {
           const fileContents = await readFile(file.name, 'utf8')
-          await writeFile(file.name, fileContents.replace(keyword, replacement), 'utf8')
+          await writeFile(file.name, fileContents.replace(`/${keyword}/g`, replacement), 'utf8')
           return;
         }
       } catch(error) {
