@@ -8,7 +8,7 @@ jest.mock('./utilities', () => ({
   findAndReplace: jest.fn()
 }))
 describe('copyRepo', () => {
-  fit('makes expected calls', async () => {
+  it('makes expected calls', async () => {
     execSync.mockResolvedValue(Buffer.from('a'))
     execSync.mockResolvedValue(Buffer.from('b'))
     execSync.mockResolvedValue(Buffer.from('c'))

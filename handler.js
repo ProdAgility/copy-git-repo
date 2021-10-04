@@ -11,7 +11,6 @@ module.exports = async (event) => {
   } = event.body ? JSON.parse(event.body) : event;
 
   try {
-    console.log(copyRepo)
     functionReturnValue = await copyRepo(existing, copy)
   } catch(err) {
     console.error(err)
@@ -26,8 +25,6 @@ module.exports = async (event) => {
       body: JSON.stringify(functionReturnValue)
     };
   } else {
-    console.log('helloooooo')
-    console.log(functionReturnValue)
     handlerReturnValue = functionReturnValue;
   }
 
