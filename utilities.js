@@ -1,8 +1,6 @@
 const { readdir, readFile, rename, writeFile } = require('fs/promises')
 
 const findAndReplace = async (keyword, replacement) => {
-  return;
-  console.log('find and replace beingexecuted!')
   try {
     const files = await readdir(process.cwd(), { withFileTypes: true })
     files.forEach(async (file) => {
@@ -22,8 +20,6 @@ const findAndReplace = async (keyword, replacement) => {
 }
 
 const findAndRename = async (currentName, newName) => {
-  return;
-  console.log('beingexecuted!')
   try {
     const files = await readdir(process.cwd(), { withFileTypes: true })
     files.forEach(async (file) => {
