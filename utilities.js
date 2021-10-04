@@ -1,5 +1,25 @@
 const { readdir, readFile, rename, writeFile } = require('fs/promises')
 
+const findAndRename = async (currentName, newName) => {
+  try {
+    const files =  readdir(process.cwd(), { withFileTypes: true })
+    files.forEach(async (file) => {
+      try {
+        if (!file.isDirectory() && file.name.match(currentName)) {
+          const extension = file.name.split('.').slice(1).join('.')
+          const finalName = extension ? `${newName}.${extension}` : newName;
+          await rename(file.name, finalName)
+          return;
+        }
+      } catch(error) {
+        console.log(error)
+      }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const findAndReplace = async (keyword, replacement) => {
   try {
     const files = await readdir(process.cwd(), { withFileTypes: true })
@@ -15,26 +35,6 @@ const findAndReplace = async (keyword, replacement) => {
       }
     })
   } catch(error) {
-    console.log(error)
-  }
-}
-
-const findAndRename = async (currentName, newName) => {
-  try {
-    const files = await readdir(process.cwd(), { withFileTypes: true })
-    files.forEach(async (file) => {
-      try {
-        if (!file.isDirectory() && file.name.match(currentName)) {
-          const extension = file.name.split('.').slice(1).join('.')
-          const finalName = extension ? `${newName}.${extension}` : newName;
-          await rename(file.name, finalName)
-          return;
-        }
-      } catch(error) {
-        console.log(error)
-      }
-    })
-  } catch (error) {
     console.log(error)
   }
 }

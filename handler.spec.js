@@ -1,11 +1,6 @@
 const handler = require('./handler')
 const { execSync } = require('child_process')
 
-// jest.mock("child_process", () => {
-//   return {
-//     execSync: () => "This is a test message"
-//   };
-// });
 jest.mock("child_process")
 process.chdir = () => {}
 jest.mock('./utilities', () => ({
