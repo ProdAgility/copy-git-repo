@@ -1,7 +1,7 @@
 'use strict';
 const copyRepo = require('./copyRepo')
 
-module.exports.copyRepo = async (event) => {
+module.exports = async (event) => {
   let handlerReturnValue;
   let functionReturnValue;
 
@@ -11,6 +11,7 @@ module.exports.copyRepo = async (event) => {
   } = event.body ? JSON.parse(event.body) : event;
 
   try {
+    console.log(copyRepo)
     functionReturnValue = await copyRepo(existing, copy)
   } catch(err) {
     console.error(err)
@@ -25,6 +26,8 @@ module.exports.copyRepo = async (event) => {
       body: JSON.stringify(functionReturnValue)
     };
   } else {
+    console.log('helloooooo')
+    console.log(functionReturnValue)
     handlerReturnValue = functionReturnValue;
   }
 

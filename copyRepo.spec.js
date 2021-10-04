@@ -2,8 +2,13 @@ const copyRepo = require('./copyRepo')
 const { execSync } = require('child_process')
 
 jest.mock("child_process")
+process.chdir = () => {}
+jest.mock('./utilities', () => ({
+  findAndRename: jest.fn(),
+  findAndReplace: jest.fn()
+}))
 describe('copyRepo', () => {
-  it('makes expected calls', async () => {
+  fit('makes expected calls', async () => {
     execSync.mockResolvedValue(Buffer.from('a'))
     execSync.mockResolvedValue(Buffer.from('b'))
     execSync.mockResolvedValue(Buffer.from('c'))
