@@ -13,7 +13,7 @@ jest.mock('./utilities', () => ({
   findAndReplace: jest.fn()
 }))
 describe('handler', () => {
-  fit('returns data when invoked directly', async () => {
+  it('returns data when invoked directly', async () => {
     execSync.mockResolvedValue(Buffer.from('a'))
     execSync.mockResolvedValue(Buffer.from('b'))
     execSync.mockResolvedValue(Buffer.from('c'))
@@ -21,14 +21,12 @@ describe('handler', () => {
     const result = await handler({"existing": "existing_name", "copy": "copy_name"})
     expect(result).toEqual(true)
   })
-  // it('returns an http response when invoked from api gateway', async () => {
-  //   execSync.mockResolvedValue(Buffer.from('a'))
-  //   // findAndReplace.mockResolvedValue(true)
-  //   // findAndRename.mockResolvedValue(true)
-  //   execSync.mockResolvedValue(Buffer.from('b'))
-  //   execSync.mockResolvedValue(Buffer.from('c'))
+  it('returns an http response when invoked from api gateway', async () => {
+    execSync.mockResolvedValue(Buffer.from('a'))
+    execSync.mockResolvedValue(Buffer.from('b'))
+    execSync.mockResolvedValue(Buffer.from('c'))
 
-  //   const result = await handler({body:'{"existing": "existing_name", "copy": "copy_name"}'})
-  //   expect(result).toEqual({statusCode: 201, body: JSON.stringify({functionReturnValue: true})})
-  // })
+    const result = await handler({body:'{"existing": "existing_name", "copy": "copy_name"}'})
+    expect(result).toEqual({statusCode: 201, body: JSON.stringify({functionReturnValue: true})})
+  })
 })
