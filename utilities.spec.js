@@ -1,5 +1,14 @@
 const { readdir, readFile, rename, writeFile } = require('fs/promises')
 const utilities = require('./utilities')
+
+const mockFileContents = {
+  "x": "find text find",
+  "y": "something",
+  "z": "text find text",
+  "waldo.yml": "",
+  "waldo.backup.spec.js": "",
+  "waldo2": ""
+}
 jest.mock('fs/promises', () => {
   return {
     readdir: () => [
@@ -10,17 +19,17 @@ jest.mock('fs/promises', () => {
       {name: 'waldo.backup.spec.js', isDirectory: () => false},
       {name: 'waldo2', isDirectory: () => true}
     ],
-    readFile: () => "This is a test message",
+    readFile: (f) => mockFileContents[f],
     rename: jest.fn(),
-    writeFile: () => "This is a test message"
+    writeFile: jest.fn((x) => { debugger; })
   };
 });
+
 describe('utilities', () => {
   describe('findAndRename', () => {
     it('makes expected calls', async () => {
       utilities.findAndRename('waldo', 'somethingelse')
 
-      debugger
       expect(rename).toHaveBeenCalledWith(
         'waldo.yml',
         'somethingelse.yml'
@@ -31,27 +40,12 @@ describe('utilities', () => {
       )
     })
   })
-  // describe('findAndReplace', () => {
-  //   it('makes expected calls', async () => {
-  //     execSync.mockResolvedValue(Buffer.from('a'))
-  //     execSync.mockResolvedValue(Buffer.from('b'))
-  //     execSync.mockResolvedValue(Buffer.from('c'))
-
-  //     await copyRepo('existing', 'copy')
-
-  //     expect(execSync).toHaveBeenCalledWith(
-  //       expect.stringMatching(/.*git clone.*/),
-  //       expect.anything()
-  //     )
-  //     expect(execSync).toHaveBeenCalledWith(
-  //       expect.stringMatching(/.*git push*/),
-  //       expect.anything()
-  //     )
-  //     expect(execSync).toHaveBeenCalledWith(
-  //       expect.stringMatching(/.*rm -rf.*/),
-  //       expect.anything()
-  //     )
-  //   })
-  // })
+  describe('findAndReplace', () => {
+    it('makes expected calls', async () => {
+      await utilities.findAndReplace('find', 'replace')
+      expect(writeFile).toHaveBeenCalledWith("x", "replace text replace", "utf8")
+      expect(writeFile).toHaveBeenCalledWith("z", "text replace text", "utf8")
+    })
+  })
 })
 
