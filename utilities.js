@@ -2,7 +2,7 @@ const { readdir, readFile, rename, writeFile } = require('fs/promises')
 
 const findAndRename = async (currentName, newName) => {
   try {
-    const files = readdir(process.cwd(), { withFileTypes: true })
+    const files = await readdir(process.cwd(), { withFileTypes: true })
     files.forEach(async (file) => {
       try {
         if (!file.isDirectory() && file.name.match(currentName)) {
