@@ -27,10 +27,8 @@ jest.mock('fs/promises', () => {
 describe('utilities', () => {
   describe('findAndRename', () => {
     const { rename } = require('fs/promises')
-
     it('makes expected calls', async () => {
       await utilities.findAndRename('waldo', 'somethingelse')
-
       expect(rename).toHaveBeenCalledWith(
         'waldo.yml',
         'somethingelse.yml'
@@ -41,22 +39,19 @@ describe('utilities', () => {
       )
     })
   })
-
   describe('findAndReplace', () => {
     const { writeFile } = require('fs/promises')
-
     it('makes expected calls', async () => {
       await utilities.findAndReplace('find', 'replace')
-
       expect(writeFile).toHaveBeenCalledWith(
         'x',
         'replace text replace',
-        'utf8'
+        expect.anything()
       )
       expect(writeFile).toHaveBeenCalledWith(
         'z',
         'text replace text',
-        'utf8'
+        expect.anything()
       )
     })
   })

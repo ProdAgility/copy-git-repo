@@ -1,30 +1,40 @@
 const copyRepo = require('./copyRepo')
+const { findAndRename, findAndReplace } = require('./utilities')
 const { execSync } = require('child_process')
 
 jest.mock("child_process")
 process.chdir = () => {}
 jest.mock('./utilities', () => ({
-  findAndRename: jest.fn(),
-  findAndReplace: jest.fn()
+  findAndRename: jest.fn(() => Promise.resolve()),
+  findAndReplace: jest.fn(() => Promise.resolve())
 }))
+
 describe('copyRepo', () => {
   it('makes expected calls', async () => {
-    execSync.mockResolvedValue(Buffer.from('a'))
-    execSync.mockResolvedValue(Buffer.from('b'))
-    execSync.mockResolvedValue(Buffer.from('c'))
-
     await copyRepo('existing', 'copy')
 
     expect(execSync).toHaveBeenCalledWith(
-      expect.stringMatching(/.*git clone.*/),
+      expect.stringMatching(/git clone/),
+      expect.anything()
+    )
+    expect(findAndReplace).toHaveBeenCalledWith(
+      'existing',
+      'copy'
+    )
+    expect(findAndRename).toHaveBeenCalledWith(
+      'existing',
+      'copy'
+    )
+    expect(execSync).toHaveBeenCalledWith(
+      expect.stringMatching(/git.*commit/),
       expect.anything()
     )
     expect(execSync).toHaveBeenCalledWith(
-      expect.stringMatching(/.*git push*/),
+      expect.stringMatching(/git push/),
       expect.anything()
     )
     expect(execSync).toHaveBeenCalledWith(
-      expect.stringMatching(/.*rm -rf.*/),
+      expect.stringMatching(/rm -rf/),
       expect.anything()
     )
   })
