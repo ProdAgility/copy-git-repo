@@ -1,4 +1,4 @@
-const handler = require('./handler')
+const { handler } = require('./handler')
 const { execSync } = require('child_process')
 
 jest.mock("child_process")
