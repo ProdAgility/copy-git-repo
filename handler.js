@@ -1,7 +1,7 @@
 'use strict';
 const copyRepo = require('./copyRepo')
 
-module.exports = async (event) => {
+module.exports.handler = async (event) => {
   let handlerReturnValue;
   let functionReturnValue;
 
