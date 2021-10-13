@@ -1,10 +1,10 @@
 const { execSync } = require('child_process')
 const { findAndRename, findAndReplace } = require('./utilities')
 
-module.exports = async (existing, copy) => {
+module.exports = async (configOrExisting, copy) => {
   const execOpt = { encoding: 'utf8', stdio: 'inherit' }
-  const tempDir = 'copyrepo-tmp'
-  execSync(`cd /tmp && git clone --bare https://${process.env.GITHUB_TOKEN}@github.com/${existing}.git ${tempDir}`, execOpt)
+  const tempDir = `${copy}-tmp`
+  execSync(`rm -rf ${tempDir} && cd /tmp && git clone --bare https://${process.env.GITHUB_TOKEN}@github.com/${existing}.git ${tempDir}`, execOpt)
   process.chdir(`/tmp/${tempDir}`)
   try {
     await findAndReplace(existing, copy)
