@@ -50,6 +50,8 @@ provider:
 # you can define service wide environment variables here
   environment:
     GITHUB_TOKEN: ${env:GITHUB_TOKEN}
+    GIT_USER_NAME: ${env:GIT_USER_NAME}
+    GITHUB_TOKEN: ${env:GIT_EMAIL}
 
 # you can add packaging information here
 #package:
