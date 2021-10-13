@@ -51,7 +51,7 @@ provider:
   environment:
     GITHUB_TOKEN: ${env:GITHUB_TOKEN}
     GIT_USER_NAME: ${env:GIT_USER_NAME}
-    GITHUB_TOKEN: ${env:GIT_EMAIL}
+    GIT_EMAIL: ${env:GIT_EMAIL}
 
 # you can add packaging information here
 #package:
