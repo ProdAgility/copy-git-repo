@@ -12,8 +12,8 @@ module.exports = async (existing, copy) => {
   } catch (error) {
     console.log(error)
   }
-  execSync(`git -c user.name="${process.env.GIT_USER_NAME}" -c user.email="${process.env.GIT_EMAIL}" commit -am "updates"`, execOpt)
-  execSync(`git push --mirror https://${process.env.GITHUB_TOKEN}@github.com/${copy}.git`, execOpt)
+  execSync(`cd /tmp/${tempDir} && git -c user.name="${process.env.GIT_USER_NAME}" -c user.email="${process.env.GIT_EMAIL}" commit -am "updates"`, execOpt)
+  execSync(`cd /tmp/${tempDir} && git push --mirror https://${process.env.GITHUB_TOKEN}@github.com/${copy}.git`, execOpt)
   process.chdir(`/tmp/`)
   execSync(`rm -rf ${tempDir}`, execOpt)
 
