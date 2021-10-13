@@ -4,7 +4,7 @@ const { findAndRename, findAndReplace } = require('./utilities')
 module.exports = async (existing, copy) => {
   const execOpt = { encoding: 'utf8', stdio: 'inherit' }
   const tempDir = `${copy}-tmp`
-  execSync(`mkdir /tmp/worktree`, execOpt)
+  execSync(`rm -rf /tmp/worktee && mkdir /tmp/worktree`, execOpt)
   execSync(`rm -rf ${tempDir} && cd /tmp && git clone --bare https://${process.env.GITHUB_TOKEN}@github.com/${existing}.git ${tempDir}`, execOpt)
   process.chdir(`/tmp/${tempDir}`)
   try {
