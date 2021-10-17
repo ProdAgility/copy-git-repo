@@ -10,9 +10,8 @@ module.exports = async (existing, copy) => {
   process.chdir(`/tmp/${tempDir}`)
   execSync(`rm -rf .git/`, execOpt)
   try {
-    await findAndReplace("copyRepo", "copyGithubRepo")
-    await findAndReplace("copy-git-repo", "copy-github-repo")
-    await findAndRename("copyRepo", "copyGithubRepo")
+    await findAndReplace(existing, copy)
+    await findAndRename(existing, copy)
   } catch (error) {
     console.log(error)
   }
