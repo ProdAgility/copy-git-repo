@@ -1,4 +1,5 @@
 const { readdir, readFile, rename, writeFile } = require('fs/promises')
+const { readFileSync, writeFileSync } = require('fs')
 
 const findAndRename = async (fileName, newName) => {
   try {
@@ -26,10 +27,9 @@ const findAndReplace = async (keyword, replacement) => {
     files.forEach(async (file) => {
       try {
         if (!file.isDirectory()) {
-          const fileContents = await readFile(file.name, 'utf8')
-
+          fileContents = await readFileSync(file.name, 'utf8')
           if (fileContents.includes(keyword)) {
-            await writeFile(
+            writeFileSync(
               file.name,
               fileContents.replace(new RegExp(`${keyword}`, 'g'), replacement),
               'utf8'
