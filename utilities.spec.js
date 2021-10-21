@@ -8,6 +8,12 @@ const mockFileContents = {
   "waldo.backup.spec.js": "",
   "waldo2": ""
 }
+jest.mock('fs', () => {
+  return {
+    readFileSync: (f) => mockFileContents[f],
+    writeFileSync: jest.fn()
+  }
+})
 jest.mock('fs/promises', () => {
   return {
     readdir: () => Promise.resolve([
@@ -18,9 +24,9 @@ jest.mock('fs/promises', () => {
       {name: 'waldo.backup.spec.js', isDirectory: () => false},
       {name: 'waldo2', isDirectory: () => true}
     ]),
-    readFile: (f) => Promise.resolve(mockFileContents[f]),
+    // readFile: (f) => Promise.resolve(mockFileContents[f]),
     rename: jest.fn(),
-    writeFile: jest.fn()
+    // writeFile: jest.fn()
   };
 });
 
@@ -40,15 +46,15 @@ describe('utilities', () => {
     })
   })
   describe('findAndReplace', () => {
-    const { writeFile } = require('fs/promises')
+    const { writeFileSync } = require('fs')
     it('makes expected calls', async () => {
       await utilities.findAndReplace('find', 'replace')
-      expect(writeFile).toHaveBeenCalledWith(
+      expect(writeFileSync).toHaveBeenCalledWith(
         'x',
         'replace text replace',
         expect.anything()
       )
-      expect(writeFile).toHaveBeenCalledWith(
+      expect(writeFileSync).toHaveBeenCalledWith(
         'z',
         'text replace text',
         expect.anything()

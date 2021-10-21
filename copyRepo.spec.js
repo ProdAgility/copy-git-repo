@@ -11,7 +11,7 @@ jest.mock('./utilities', () => ({
 
 describe('copyRepo', () => {
   it('makes expected calls', async () => {
-    await copyRepo('existing', 'copy')
+    await copyRepo('account/existing', 'account/copy')
 
     expect(execSync).toHaveBeenCalledWith(
       expect.stringMatching(/git clone/),
