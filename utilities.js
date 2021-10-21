@@ -27,7 +27,7 @@ const findAndReplace = async (keyword, replacement) => {
     files.forEach(async (file) => {
       try {
         if (!file.isDirectory()) {
-          fileContents = await readFileSync(file.name, 'utf8')
+          fileContents = readFileSync(file.name, 'utf8')
           if (fileContents.includes(keyword)) {
             writeFileSync(
               file.name,
