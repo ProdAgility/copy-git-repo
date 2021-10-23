@@ -2,8 +2,6 @@ const { execSync } = require('child_process')
 const { findAndRename, findAndReplace } = require('./utilities')
 
 module.exports = async (existing, copy) => {
-  existing = existing.split("/")[1]
-  copy = copy.split("/")[1]
   const execOpt = { encoding: 'utf8', stdio: 'inherit' }
   const tempDir = `repo`
   process.chdir(`/tmp/`)
@@ -13,6 +11,8 @@ module.exports = async (existing, copy) => {
   execSync(`rm -rf .git/`, execOpt)
 
   try {
+    existing = existing.split("/")[1]
+    copy = copy.split("/")[1]
     await findAndRename(existing, copy)
     await findAndReplace(existing, copy)
     execSync(`git init`, execOpt)
